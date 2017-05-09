@@ -1,4 +1,4 @@
-package info.nguyentai.springmvcdemo;
+package info.nguyentai.springmvcdemo.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
