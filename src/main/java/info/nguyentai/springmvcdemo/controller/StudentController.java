@@ -43,14 +43,14 @@ public class StudentController {
 		return "students";
 	}
 
-	@RequestMapping(params = "form", method = RequestMethod.GET)
+	@RequestMapping(value="/add", method = RequestMethod.GET)
 	public String addStudentForm(Model model) {
 		Student student = new Student();
 		model.addAttribute("student", student);
 		return "add-student";
 	}
 
-	@RequestMapping(params = "form", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public String addStudent(@ModelAttribute("student") @Validated Student student, Model model) {
 		logger.info("Creating student");
 //		if(bindingResult.hasErrors()) {

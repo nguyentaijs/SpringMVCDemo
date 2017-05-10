@@ -20,7 +20,7 @@
                 <h2>Student Manager</h2>
             </div>
             <div class="panel-body">
-                <a href="<%= request.getContextPath() %>/students?form" class="btn btn-primary"> <i
+                <a href="<%= request.getContextPath() %>/students/add" class="btn btn-primary"> <i
                     class="fa fa-cog" aria-hidden="true"></i>Add student
                 </a>
                 <table class="table table-hover">

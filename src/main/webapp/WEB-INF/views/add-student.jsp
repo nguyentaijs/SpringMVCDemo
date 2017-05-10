@@ -26,7 +26,7 @@ pageEncoding="UTF-8"%>
             </div>
             <div class="panel-body">
                 <form:form modelAttribute="student" id="studentUpdateForm"
-                method="post" action="${pageContext.request.contextPath}/students?form">
+                method="post" action="${pageContext.request.contextPath}/students">
                 <div>
                 	<spring:bind path="id">
                     <div class="row">

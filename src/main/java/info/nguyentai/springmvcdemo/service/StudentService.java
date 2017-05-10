@@ -23,20 +23,24 @@ public class StudentService {
 	}
 	
 	public boolean addStudent(Student student) {
-		Student dbStudent = new Student();
-		
-		if(student.getId() == null) {
+		if(checkDuplicate(student)) {
 			return false;
 		}
-		dbStudent.setId(student.getId());
-		dbStudent.setFullName(student.getFullName());
-		dbStudent.setDayOfBirth(student.getDayOfBirth());
-		studentDAO.addStudent(dbStudent);
+		studentDAO.addStudent(student);
 		return true;
 	}
 
 	public void setStudentDAO(StudentDAO studentDAO) {
 		this.studentDAO = studentDAO;
+	}
+	
+	private boolean checkDuplicate(Student student) {
+		for (Student st : studentDAO.getAllStudents()) {
+			if(st.getId().equals(student.getId())) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }
