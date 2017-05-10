@@ -4,13 +4,18 @@ import java.util.List;
 
 import info.nguyentai.springmvcdemo.Service.StudentService;
 import info.nguyentai.springmvcdemo.model.Student;
+import info.nguyentai.springmvcdemo.validator.FormValidator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,6 +28,14 @@ public class StudentController {
 	@Autowired
 	private StudentService studentService;
 
+	@Autowired
+	private FormValidator formValidator;
+	
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.setValidator(formValidator);
+	}
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllStudents(Model model) {
 		logger.info("Get all students");
@@ -39,21 +52,20 @@ public class StudentController {
 	}
 
 	@RequestMapping(params = "form", method = RequestMethod.POST)
-	public String addStudent(Student student, Model model, BindingResult bindingResult) {
+	public String addStudent(@ModelAttribute("student") @Validated Student student, Model model) {
 		logger.info("Creating student");
-		if(bindingResult.hasErrors()) {
-			model.addAttribute("message", "Adding student failed while binding result!");
-			model.addAttribute("addresult", "failed");
-			return "add-result";
-		}
+//		if(bindingResult.hasErrors()) {
+//			model.addAttribute("msg", "Adding student failed!");
+//			model.addAttribute("css", "danger");
+//			return "add-result";
+//		}
 		if(!studentService.addStudent(student)) {
-			model.addAttribute("message", "Adding student failed!");
-			model.addAttribute("addresult", "failed");
+			model.addAttribute("msg", "Adding student failed!");
+			model.addAttribute("css", "danger");
 			return "add-result";
 		}
-		
-		model.addAttribute("message", "Adding student successfully!");
-		model.addAttribute("addresult", "successful");
+		model.addAttribute("css", "success");
+		model.addAttribute("msg", "Student added successfully!");
 		return "add-result";
 	}
 }

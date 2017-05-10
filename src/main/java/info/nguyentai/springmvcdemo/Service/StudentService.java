@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,12 @@ public class StudentService {
 	}
 	
 	public boolean addStudent(Student student) {
-		students.add(student);
-		return true;
+		Random random = new Random();
+		int num = random.nextInt(2)+1;
+		if(num == 1) {
+			students.add(student);
+			return true;
+		}
+		return false;
 	}
 }

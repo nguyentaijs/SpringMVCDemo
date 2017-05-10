@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,29 +26,35 @@ pageEncoding="UTF-8"%>
             </div>
             <div class="panel-body">
                 <form:form modelAttribute="student" id="studentUpdateForm"
-                method="post">
+                method="post" action="${pageContext.request.contextPath}/students?form">
                 <div>
+                	<spring:bind path="id">
                     <div class="row">
                         <div class="form-group col-xs-3">
                             <form:label path="id" for="studentid">Student ID:</form:label>
-                            <form:input path="id" type="text" class="form-control"
-                            id="studentid"></form:input>
+                            <form:input path="id" type="text" class="form-control" id="studentid"></form:input>
+                            <form:errors path="id" class="control-label"></form:errors>
                         </div>
                     </div>
+                    </spring:bind>
+                    <spring:bind path="fullName">
                     <div class="row">
                         <div class="form-group col-sm-3">
                             <form:label path="fullName" for="studentname">Student name:</form:label>
-                            <form:input path="fullName" type="text" class="form-control"
-                            id="studentname"></form:input>
+                            <form:input path="fullName" type="text" class="form-control" id="studentname"></form:input>
+                            <form:errors path="fullName" class="control-label"></form:errors>
                         </div>
                     </div>
+                    </spring:bind>
+                    <spring:bind path="dayOfBirth">
                     <div class="row">
                         <div class="form-group col-sm-3">
                             <form:label path="dayOfBirth" for="dayofbirth">Day of birth:</form:label>
-                            <form:input path="dayOfBirth" type="text" id="dayofbirth"
-                            class="form-control"></form:input>
+                            <form:input path="dayOfBirth" type="text" id="dayofbirth" class="form-control"></form:input>
+                            <form:errors path="dayOfBirth" class="control-label"></form:errors>
                         </div>
                     </div>
+                    </spring:bind>
                 </div>
                 <button type="submit" class="btn btn-primary">Add</button>
             </form:form>
