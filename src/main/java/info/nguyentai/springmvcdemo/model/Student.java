@@ -2,9 +2,23 @@ package info.nguyentai.springmvcdemo.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name="student")
 public class Student {
+	@Id
+	@Column(name="ID", length=30)
 	private String id;
+	@Column(name="FULL_NAME", length=50)
 	private String fullName;
+	@Column(name="DAY_OF_BIRTH")
+	@Temporal(TemporalType.DATE)
 	private Date dayOfBirth;
 	
 	public Student() {

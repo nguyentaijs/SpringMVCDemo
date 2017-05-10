@@ -2,8 +2,8 @@ package info.nguyentai.springmvcdemo.validator;
 
 import java.util.Date;
 
-import info.nguyentai.springmvcdemo.Service.StudentService;
 import info.nguyentai.springmvcdemo.model.Student;
+import info.nguyentai.springmvcdemo.service.StudentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
