@@ -9,11 +9,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="student")
 public class Student {
 	@Id
 	@Column(name="ID", length=30)
+	@NotEmpty
 	private String id;
 	@Column(name="FULL_NAME", length=50)
 	private String fullName;

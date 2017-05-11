@@ -86,5 +86,12 @@ public class StudentControllerTest {
 			.andExpect(model().attributeExists("student"));
 	}
 	
-
+	@Test
+	public void testAddStudent_Success () throws Exception {
+		mockMvc.perform(post("/students")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED))
+			.andExpect(status().isOk())
+			.andExpect(view().name("add-student"))
+			.andExpect(model().attributeExists("student"));
+	}
 }

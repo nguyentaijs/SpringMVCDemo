@@ -1,19 +1,24 @@
 package info.nguyentai.springmvcdemo.controller;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import info.nguyentai.springmvcdemo.model.Student;
 import info.nguyentai.springmvcdemo.service.StudentService;
-import info.nguyentai.springmvcdemo.validator.FormValidator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,14 +31,14 @@ public class StudentController {
 	
 	@Autowired
 	private StudentService studentService;
-
-	@Autowired
-	private FormValidator formValidator;
 	
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		binder.setValidator(formValidator);
-	}
+	private Validator validator;
+	
+	public StudentController()
+    {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+    }
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllStudents(Model model) {
@@ -51,13 +56,20 @@ public class StudentController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String addStudent(@ModelAttribute("student") @Validated Student student, Model model) {
+	public String addStudent(@ModelAttribute("student") Student student, Model model, BindingResult bindingResult) {
 		logger.info("Creating student");
-//		if(bindingResult.hasErrors()) {
-//			model.addAttribute("msg", "Adding student failed!");
-//			model.addAttribute("css", "danger");
-//			return "add-result";
-//		}
+		 Set<ConstraintViolation<Student>> violations = validator.validate(student);
+	     
+		    for (ConstraintViolation<Student> violation : violations) 
+		    {
+		        String propertyPath = violation.getPropertyPath().toString();
+		        String message = violation.getMessage();
+		        bindingResult.addError(new FieldError("student",propertyPath,
+		                               "Invalid input value: "+ propertyPath + " " + message + "! Please correct the error."));
+		    }
+		if(bindingResult.hasErrors()) {
+			return "add-student";
+		}
 		if(!studentService.addStudent(student)) {
 			model.addAttribute("msg", "Adding student failed!");
 			model.addAttribute("css", "danger");
